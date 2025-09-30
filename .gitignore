@@ -1,0 +1,39 @@
+# C language
+*.o
+*.a
+*.so
+*.exe
+*.out
+a.out
+core
+*.core
+
+# Compiled Object files
+*.slo
+*.lo
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# VS Code
+.vscode/
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix

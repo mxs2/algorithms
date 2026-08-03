@@ -1,2 +1,2 @@
 # Algorithms
-cpp and java studies. 
+dsa studies.

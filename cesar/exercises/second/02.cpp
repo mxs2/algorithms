@@ -7,7 +7,7 @@ int mdcRecursivo(int primeiro, int segundo) {
   if (segundo == 0) {
     return primeiro;
   }
-  return mdcRecursivo(segundo, primeiro % segundo);
+return mdcRecursivo(segundo, primeiro % segundo);
 }
 
 int mdcIterativo(int primeiro, int segundo) {
@@ -16,7 +16,7 @@ int mdcIterativo(int primeiro, int segundo) {
     primeiro = segundo;
     segundo = resto;
   }
-  return primeiro;
+return primeiro;
 }
 
 int main() {

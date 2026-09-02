@@ -26,11 +26,11 @@ int main() {
     alunos[i].media = (alunos[i].matematica + alunos[i].fisica) / 2.0;
   }
 
-  cout << fixed << setprecision(2);
-  cout << "\nMedias dos alunos\n";
-  for (const Aluno& aluno : alunos) {
-    cout << aluno.nome << ": " << aluno.media << "\n";
-  }
+cout << fixed << setprecision(2);
+cout << "\nMedias dos alunos\n";
+for (const Aluno& aluno : alunos) {
+  cout << aluno.nome << ": " << aluno.media << "\n";
+}
 
-  return 0;
+return 0;
 }

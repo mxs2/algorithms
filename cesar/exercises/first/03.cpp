@@ -25,13 +25,13 @@ int main() {
     totalVendas += produtos[i].preco * produtos[i].quantidade;
   }
 
-  cout << "\nResumo das vendas\n";
-  for (const Produto &produto : produtos) {
-    double totalProduto = produto.preco * produto.quantidade;
-    cout << produto.nome << ": " << produto.quantidade << " x " << produto.preco
-         << " = " << totalProduto << "\n";
-  }
-  cout << "Total das vendas: " << totalVendas << "\n";
+cout << "\nResumo das vendas\n";
+for (const Produto &produto : produtos) {
+  double totalProduto = produto.preco * produto.quantidade;
+  cout << produto.nome << ": " << produto.quantidade << " x " << produto.preco
+  << " = " << totalProduto << "\n";
+}
+cout << "Total das vendas: " << totalVendas << "\n";
 
-  return 0;
+return 0;
 }

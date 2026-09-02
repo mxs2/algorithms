@@ -7,16 +7,16 @@ string inverterRecursivo(const string &texto, int inicio, int fim) {
   if (inicio >= fim) {
     return texto;
   }
-  string invertido = texto;
-  swap(invertido[inicio], invertido[fim]);
-  return inverterRecursivo(invertido, inicio + 1, fim - 1);
+string invertido = texto;
+swap(invertido[inicio], invertido[fim]);
+return inverterRecursivo(invertido, inicio + 1, fim - 1);
 }
 
 string inverterRecursivo(const string &texto) {
   if (texto.empty()) {
     return texto;
   }
-  return inverterRecursivo(texto, 0, static_cast<int>(texto.size()) - 1);
+return inverterRecursivo(texto, 0, static_cast<int>(texto.size()) - 1);
 }
 
 string inverterIterativo(const string &texto) {
@@ -30,7 +30,7 @@ string inverterIterativo(const string &texto) {
     --fim;
   }
 
-  return invertido;
+return invertido;
 }
 
 int main() {

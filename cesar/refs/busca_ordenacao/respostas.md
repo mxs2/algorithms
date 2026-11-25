@@ -1025,3 +1025,404 @@ Arroz: R$ 25.9
 Mais barato: Leite
 Mais caro: Arroz
 ```
+
+---
+
+## Q17 - Bubble Sort passo a passo (otimizado)
+
+> Implemente o Bubble Sort, exiba o vetor ao final de cada passada e pare assim que uma passada não fizer nenhuma troca.
+> Exemplo: `[5, 1, 4, 2, 8]`.
+
+Compara vizinhos e troca se estiverem fora de ordem; a cada passada o maior "sobe" para o fim. A variável `trocou` encerra o algoritmo quando o vetor já está ordenado.
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+void imprimirVetor(int vetor[], int tamanho) {
+    for (int i = 0; i < tamanho; i++)
+        cout << vetor[i] << " ";
+    cout << "\n";
+}
+
+// Bubble Sort otimizado: para quando não há trocas
+void bubbleSort(int vetor[], int tamanho) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        int trocou = 0;
+
+        for (int j = 0; j < tamanho - 1 - i; j++) {
+            if (vetor[j] > vetor[j + 1]) {
+                int aux = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = aux;
+                trocou = 1;
+            }
+        }
+
+        cout << "Passada " << (i + 1) << ": ";
+        imprimirVetor(vetor, tamanho);
+
+        if (!trocou)
+            break;
+    }
+}
+
+int main() {
+    int vetor[] = {5, 1, 4, 2, 8};
+    int tamanho = 5;
+
+    bubbleSort(vetor, tamanho);
+
+    return 0;
+}
+```
+
+```
+Passada 1: 1 4 2 5 8
+Passada 2: 1 2 4 5 8
+Passada 3: 1 2 4 5 8
+```
+
+---
+
+## Q18 - Placar do Jogo (Bubble Sort decrescente)
+
+> Um jogo registra as pontuações dos jogadores. O sistema deve exibir o placar da maior para a menor pontuação e informar a pontuação do campeão.
+> Requisitos: ordenar com Bubble Sort em ordem **decrescente**.
+> Exemplo: `[120, 340, 90, 500, 210]`.
+
+Basta inverter a comparação (`<` em vez de `>`).
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+// Bubble Sort decrescente
+void bubbleSort(int vetor[], int tamanho) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        for (int j = 0; j < tamanho - 1 - i; j++) {
+            if (vetor[j] < vetor[j + 1]) {
+                int aux = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = aux;
+            }
+        }
+    }
+}
+
+int main() {
+    int pontos[] = {120, 340, 90, 500, 210};
+    int tamanho = 5;
+
+    bubbleSort(pontos, tamanho);
+
+    cout << "Placar: ";
+    for (int i = 0; i < tamanho; i++)
+        cout << pontos[i] << " ";
+    cout << "\n";
+
+    cout << "Campeao: " << pontos[0] << " pontos\n";
+
+    return 0;
+}
+```
+
+```
+Placar: 500 340 210 120 90
+Campeao: 500 pontos
+```
+
+---
+
+## Q19 - Lista de Funcionários (Bubble Sort + struct + ordem alfabética)
+
+> Uma empresa cadastrou nome e salário dos funcionários. O sistema deve listar os funcionários em ordem alfabética.
+> Requisitos: criar a struct `Funcionario` (nome e salário) e ordenar com Bubble Sort pelo campo `nome`.
+
+Para comparar strings usa-se `strcmp`: retorna valor maior que 0 quando o primeiro nome vem depois do segundo no alfabeto.
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+
+using namespace std;
+
+typedef struct {
+    char nome[50];
+    float salario;
+} Funcionario;
+
+// Bubble Sort pelo campo nome (ordem alfabética)
+void bubbleSort(Funcionario vetor[], int tamanho) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        for (int j = 0; j < tamanho - 1 - i; j++) {
+            if (strcmp(vetor[j].nome, vetor[j + 1].nome) > 0) {
+                Funcionario aux = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = aux;
+            }
+        }
+    }
+}
+
+int main() {
+    Funcionario equipe[] = {
+        {"Carlos", 3200},
+        {"Ana", 4500},
+        {"Diana", 2800},
+        {"Bruno", 3900}
+    };
+    int tamanho = 4;
+
+    bubbleSort(equipe, tamanho);
+
+    for (int i = 0; i < tamanho; i++)
+        cout << equipe[i].nome << " - R$ " << equipe[i].salario << "\n";
+
+    return 0;
+}
+```
+
+```
+Ana - R$ 4500
+Bruno - R$ 3900
+Carlos - R$ 3200
+Diana - R$ 2800
+```
+
+---
+
+## Q20 - Merge Sort básico
+
+> Implemente o Merge Sort para ordenar um vetor de inteiros em ordem crescente.
+> Exemplo: `[38, 27, 43, 3, 9, 82, 10]`.
+
+**Divide** o vetor ao meio até sobrar um elemento, depois **intercala** as metades já ordenadas.
+
+```mermaid
+graph TD
+  A["38 27 43 3 9 82 10"] --> B["38 27 43 3"]
+  A --> C["9 82 10"]
+  B --> D["38 27"]
+  B --> E["43 3"]
+  C --> F["9 82"]
+  C --> G["10"]
+  D --> H["27 38"]
+  E --> I["3 43"]
+  H --> J["3 27 38 43"]
+  I --> J
+  F --> K["9 10 82"]
+  G --> K
+  J --> L["3 9 10 27 38 43 82"]
+  K --> L
+```
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+// Intercalar: junta vetor[inicio..meio] e vetor[meio+1..fim], já ordenados
+void intercalar(int vetor[], int inicio, int meio, int fim) {
+    int tamanho = fim - inicio + 1;
+    int* aux = new int[tamanho]; // int* aux = (int*)malloc(tamanho * sizeof(int));
+    int i = inicio, j = meio + 1, k = 0;
+
+    while (i <= meio && j <= fim) {
+        if (vetor[i] <= vetor[j])
+            aux[k++] = vetor[i++];
+        else
+            aux[k++] = vetor[j++];
+    }
+
+    while (i <= meio)
+        aux[k++] = vetor[i++];
+    while (j <= fim)
+        aux[k++] = vetor[j++];
+
+    for (k = 0; k < tamanho; k++)
+        vetor[inicio + k] = aux[k];
+
+    delete[] aux; // free(aux);
+}
+
+// Merge Sort
+void mergeSort(int vetor[], int inicio, int fim) {
+    if (inicio < fim) {
+        int meio = (inicio + fim) / 2;
+        mergeSort(vetor, inicio, meio);
+        mergeSort(vetor, meio + 1, fim);
+        intercalar(vetor, inicio, meio, fim);
+    }
+}
+
+void imprimirVetor(int vetor[], int tamanho) {
+    for (int i = 0; i < tamanho; i++)
+        cout << vetor[i] << " ";
+    cout << "\n";
+}
+
+int main() {
+    int vetor[] = {38, 27, 43, 3, 9, 82, 10};
+    int tamanho = 7;
+
+    cout << "Original: ";
+    imprimirVetor(vetor, tamanho);
+
+    mergeSort(vetor, 0, tamanho - 1);
+
+    cout << "Ordenado: ";
+    imprimirVetor(vetor, tamanho);
+
+    return 0;
+}
+```
+
+```
+Original: 38 27 43 3 9 82 10
+Ordenado: 3 9 10 27 38 43 82
+```
+
+---
+
+## Q21 - Juntar Turmas (intercalação do Merge Sort)
+
+> Duas turmas têm as notas já ordenadas. A coordenação quer uma única lista ordenada com as notas das duas turmas.
+> Requisitos: usar a lógica de **intercalação** do Merge Sort (sem reordenar tudo do zero).
+> Exemplo: Turma A `[2, 5, 8, 12]`, Turma B `[3, 4, 9, 15, 20]`.
+
+Compara o primeiro elemento restante de cada vetor e copia o menor; quando um acaba, copia o resto do outro.
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+// Intercala dois vetores ordenados em resultado; retorna o tamanho final
+int intercalar(int a[], int tamA, int b[], int tamB, int resultado[]) {
+    int i = 0, j = 0, k = 0;
+
+    while (i < tamA && j < tamB) {
+        if (a[i] <= b[j])
+            resultado[k++] = a[i++];
+        else
+            resultado[k++] = b[j++];
+    }
+
+    while (i < tamA)
+        resultado[k++] = a[i++];
+    while (j < tamB)
+        resultado[k++] = b[j++];
+
+    return k;
+}
+
+int main() {
+    int turmaA[] = {2, 5, 8, 12};
+    int turmaB[] = {3, 4, 9, 15, 20};
+    int todas[9];
+
+    int tamanho = intercalar(turmaA, 4, turmaB, 5, todas);
+
+    cout << "Notas: ";
+    for (int i = 0; i < tamanho; i++)
+        cout << todas[i] << " ";
+    cout << "\n";
+
+    return 0;
+}
+```
+
+```
+Notas: 2 3 4 5 8 9 12 15 20
+```
+
+---
+
+## Q22 - Códigos sem Repetição (Merge Sort + remoção de duplicados)
+
+> Um sistema recebeu códigos de clientes com repetições. É preciso listar cada código uma única vez, em ordem crescente.
+> Requisitos: ordenar com Merge Sort. Depois, percorrer o vetor ordenado mantendo apenas os valores diferentes do anterior.
+> Exemplo: `[7, 3, 7, 1, 3, 9, 1]`.
+
+Com o vetor ordenado, valores repetidos ficam **vizinhos** — basta comparar cada um com o anterior.
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+// Intercalar: junta vetor[inicio..meio] e vetor[meio+1..fim], já ordenados
+void intercalar(int vetor[], int inicio, int meio, int fim) {
+    int tamanho = fim - inicio + 1;
+    int* aux = new int[tamanho]; // int* aux = (int*)malloc(tamanho * sizeof(int));
+    int i = inicio, j = meio + 1, k = 0;
+
+    while (i <= meio && j <= fim) {
+        if (vetor[i] <= vetor[j])
+            aux[k++] = vetor[i++];
+        else
+            aux[k++] = vetor[j++];
+    }
+
+    while (i <= meio)
+        aux[k++] = vetor[i++];
+    while (j <= fim)
+        aux[k++] = vetor[j++];
+
+    for (k = 0; k < tamanho; k++)
+        vetor[inicio + k] = aux[k];
+
+    delete[] aux; // free(aux);
+}
+
+// Merge Sort
+void mergeSort(int vetor[], int inicio, int fim) {
+    if (inicio < fim) {
+        int meio = (inicio + fim) / 2;
+        mergeSort(vetor, inicio, meio);
+        mergeSort(vetor, meio + 1, fim);
+        intercalar(vetor, inicio, meio, fim);
+    }
+}
+
+// Remove duplicados de um vetor ordenado; retorna o novo tamanho
+int removerDuplicados(int vetor[], int tamanho) {
+    if (tamanho == 0)
+        return 0;
+
+    int k = 1;
+    for (int i = 1; i < tamanho; i++)
+        if (vetor[i] != vetor[k - 1])
+            vetor[k++] = vetor[i];
+
+    return k;
+}
+
+int main() {
+    int codigos[] = {7, 3, 7, 1, 3, 9, 1};
+    int tamanho = 7;
+
+    mergeSort(codigos, 0, tamanho - 1);
+    tamanho = removerDuplicados(codigos, tamanho);
+
+    cout << "Codigos unicos: ";
+    for (int i = 0; i < tamanho; i++)
+        cout << codigos[i] << " ";
+    cout << "\n";
+
+    return 0;
+}
+```
+
+```
+Codigos unicos: 1 3 7 9
+```
